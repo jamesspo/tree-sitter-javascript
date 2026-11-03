@@ -2488,6 +2488,15 @@
           "name": "html_character_reference"
         },
         {
+          "type": "ALIAS",
+          "content": {
+            "type": "STRING",
+            "value": "&"
+          },
+          "named": true,
+          "value": "jsx_text"
+        },
+        {
           "type": "SYMBOL",
           "name": "_jsx_element"
         },
@@ -2802,6 +2811,15 @@
                     "value": "string_fragment"
                   },
                   {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_jsx_string_ampersand"
+                    },
+                    "named": true,
+                    "value": "string_fragment"
+                  },
+                  {
                     "type": "SYMBOL",
                     "name": "html_character_reference"
                   }
@@ -2831,6 +2849,15 @@
                     "content": {
                       "type": "SYMBOL",
                       "name": "unescaped_single_jsx_string_fragment"
+                    },
+                    "named": true,
+                    "value": "string_fragment"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_jsx_string_ampersand"
                     },
                     "named": true,
                     "value": "string_fragment"
@@ -2870,6 +2897,13 @@
           "type": "PATTERN",
           "value": "([^'&]|&[^#A-Za-z])+"
         }
+      }
+    },
+    "_jsx_string_ampersand": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "&"
       }
     },
     "_jsx_attribute_value": {
@@ -6927,5 +6961,6 @@
     "expression",
     "primary_expression",
     "pattern"
-  ]
+  ],
+  "reserved": {}
 }
