@@ -684,6 +684,9 @@ module.exports = grammar({
     _jsx_child: $ => choice(
       $.jsx_text,
       $.html_character_reference,
+      // An `&` that does not begin a character reference is text, as in
+      // `<p>Tom & Jerry</p>`.
+      alias('&', $.jsx_text),
       $._jsx_element,
       $.jsx_expression,
     ),
@@ -748,6 +751,7 @@ module.exports = grammar({
         '"',
         repeat(choice(
           alias($.unescaped_double_jsx_string_fragment, $.string_fragment),
+          alias($._jsx_string_ampersand, $.string_fragment),
           $.html_character_reference,
         )),
         '"',
@@ -756,6 +760,7 @@ module.exports = grammar({
         '\'',
         repeat(choice(
           alias($.unescaped_single_jsx_string_fragment, $.string_fragment),
+          alias($._jsx_string_ampersand, $.string_fragment),
           $.html_character_reference,
         )),
         '\'',
@@ -770,6 +775,11 @@ module.exports = grammar({
 
     // same here
     unescaped_single_jsx_string_fragment: _ => token.immediate(prec(1, /([^'&]|&[^#A-Za-z])+/)),
+
+    // An `&` that does not begin a character reference is part of the string,
+    // as in `href="/?a=1&b=2"`: the fragments above stop before `&` followed by
+    // a letter or `#`, so that a reference can be matched there.
+    _jsx_string_ampersand: _ => token.immediate('&'),
 
     _jsx_attribute_value: $ => choice(
       alias($._jsx_string, $.string),
